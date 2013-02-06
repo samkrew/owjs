@@ -1,0 +1,10 @@
+{
+  "name": "owjs",
+  "version": "0.0.1",
+  "description": "A client library for the 1-wire server protocol",
+  "main": "owjs.js",
+  "keywords": ["owfs", "1-wire"],
+  "repository": {"type": "git", "url": "https://github.com/vkfont/owjs.git"},
+  "author": "Andrey Afoninsky <vkfont@gmail.com>",
+  "license": "BSD"
+}
