@@ -1,15 +1,38 @@
 var owjs = require('../owjs');
 
 
-client = new owjs.Client('192.168.56.1');
-
-client.on('ready', function() {
-	console.log('app is ready');
+client = new owjs.Client({
+	host: '192.168.56.1'
 });
 
-// client.send("/structure", owjs.OW_DIRALL, function(data) {
-//     console.log(data);
-// });
+client.on('error', function(errcode) {
+	throw new Error('1-wire error, code '+errcode);
+});
+
+// client.list(
+// 	'/settings/timeout',
+// 	function(data) {
+// 		console.log('\nFiles in directory:');
+// 		for(var i=0; i < data.length; i++)
+// 			console.log(data[i]);
+// 	}
+// );
+
+// client.read(
+// 	'/settings/timeout/directory',
+// 	function(data) {
+// 		console.log('\nRead timeout directory value:');
+// 		console.log(data);
+// 	}
+// );
+
+client.write(
+	'/05.000005FA0100/PIO',
+	1,
+	function() {
+		console.log('\nValue written');
+	}
+);
 
 // async.parallel({
 //     one: function(callback){
