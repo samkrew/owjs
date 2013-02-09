@@ -45,7 +45,7 @@ function Client(options) {
     }
 
     // send raw data to 1-wire and return result
-    self.send = function(path, type, callback) {
+    self.send = function(path, value, type, callback) {
         var socket = new net.Socket({ type: 'tcp4' });
         var messages = [];
 
@@ -72,20 +72,21 @@ function Client(options) {
         });
 
         socket.connect(self.option.port, self.option.host, function() {
-            path += '\x00';
             var msg = [];
+            path += '\x00';
+            value = (type == OW_WRITE) ? value.toString() + '\x00' : '' ;
             // http://owfs.org/index.php?page=owserver-message-types
             msg = msg.concat(
                 self.htonl(0),
-                self.htonl(path.length),
+                self.htonl(path.length + value.length),
                 self.htonl(type),
                 self.htonl(0x00000020),
-                self.htonl(8192),
+                self.htonl(value.length ? value.length : 8192),
                 self.htonl(0)
             );
-            var buf = new Buffer(msg.length + path.length);
+            var buf = new Buffer(msg.length + path.length + value.length);
             new Buffer(msg).copy(buf, 0);
-            new Buffer(path).copy(buf, msg.length);
+            new Buffer(path + value).copy(buf, msg.length);
 
             socket.end(buf);
         });
@@ -93,7 +94,7 @@ function Client(options) {
 
     // return array of dir
     self.list = function(path, callback) {
-        self.send(path, OW_DIRALL, function(data) {
+        self.send(path, null, OW_DIRALL, function(data) {
             if(data[0].header.ret < 0) return self.emit('error', data[0].header.ret);
             var str = data[0].payload;
             str = str.substring(0, str.length - 1); // remove zero-char from end
@@ -103,18 +104,15 @@ function Client(options) {
 
     // read value
     self.read = function(path, callback) {
-        self.send(path, OW_READ, function(data) {
+        self.send(path, null, OW_READ, function(data) {
             if(data[0].header.ret < 0) return self.emit('error', data[0].header.ret);
             callback(data[0].payload);
         });
     }
 
     // write value
-    self.write = function(path, value, callback) {{
-        self.send(path+'\x00'+value, OW_WRITE, function(data) {
-            // something bad here: wrong return value
-            console.log(data);
-            return;
+    self.write = function(path, value, callback) {
+        self.send(path, value, OW_WRITE, function(data) {
             if(data[0].header.ret < 0) return self.emit('error', data[0].header.ret);
             callback();
         });

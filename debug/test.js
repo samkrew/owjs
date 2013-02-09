@@ -19,20 +19,20 @@ client.on('error', function(errcode) {
 // );
 
 // client.read(
-// 	'/settings/timeout/directory',
+// 	'/05.000005FA0100/PIO',
 // 	function(data) {
-// 		console.log('\nRead timeout directory value:');
+// 		console.log('\nValue:');
 // 		console.log(data);
 // 	}
 // );
 
-client.write(
-	'/05.000005FA0100/PIO',
-	1,
-	function() {
-		console.log('\nValue written');
-	}
-);
+// client.write(
+// 	'/05.000005FA0100/PIO',
+// 	'1',
+// 	function() {
+// 		console.log('\nValue written');
+// 	}
+// );
 
 // async.parallel({
 //     one: function(callback){
