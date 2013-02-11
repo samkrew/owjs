@@ -2,15 +2,35 @@ var owjs = require('../owjs');
 
 
 client = new owjs.Client({
-	host: '192.168.56.1'
+	host: '192.168.56.1',
 });
 
 client.on('error', function(errcode) {
 	throw new Error('1-wire error, code '+errcode);
 });
 
+// value changed
+client.on('data-change', function() {
+	console.log('Data changed on device');
+});
+
+client.on('device-enabled', function() {
+	console.log('New device appeared in system');
+});
+
+client.on('device-disabled', function() {
+	console.log('Device disappeared from system');
+});
+
+
+client.init(function() {
+
+	for(var i in client.devices)
+		console.log(client.devices[i].data());
+});
+
 // client.list(
-// 	'/settings/timeout',
+// 	'/10.67C6697351FF',
 // 	function(data) {
 // 		console.log('\nFiles in directory:');
 // 		for(var i=0; i < data.length; i++)
