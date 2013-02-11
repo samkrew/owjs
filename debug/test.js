@@ -2,20 +2,20 @@ var owjs = require('../owjs');
 
 
 client = new owjs.Client({
-	host: '192.168.56.1',
+	host: '192.168.56.1'
 });
 
 client.on('error', function(errcode) {
 	throw new Error('1-wire error, code '+errcode);
 });
 
-// value changed
+
 client.on('data-change', function() {
 	console.log('Data changed on device');
 });
 
 client.on('device-enabled', function() {
-	console.log('New device appeared in system');
+	console.log('New device found in system');
 });
 
 client.on('device-disabled', function() {
@@ -23,10 +23,13 @@ client.on('device-disabled', function() {
 });
 
 
-client.init(function() {
+// client.setDirInterval(1);
 
+
+client.init(function() {
+	console.log('owjs is ready');
 	for(var i in client.devices)
-		console.log(client.devices[i].data());
+		console.log('Found device: '+client.devices[i].data());
 });
 
 // client.list(
@@ -51,6 +54,15 @@ client.init(function() {
 // 	'1',
 // 	function() {
 // 		console.log('\nValue written');
+// 	}
+// );
+
+// client.send(
+// 	'/',
+// 	null,
+//	OW_DIRALLSLASH
+// 	function(data) {
+// 		console.log(data);
 // 	}
 // );
 
