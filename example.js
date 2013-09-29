@@ -1,14 +1,4 @@
-owjs
-====
-
-[node.js](http://nodejs.org) client library for [1-wire](http://owfs.org) protocol
-
-It can be used with classic node callbacks
-or [Q](http://documentup.com/kriskowal/q/) promises
-
-```javascript
-
-var owjs = require('owjs');
+var owjs = require('../owjs');
 var client = new owjs.Client({host:'127.0.0.1'});
 
 
@@ -50,6 +40,3 @@ client.list('/', function(err, result){
   console.log("All devices again");
   console.log(result);
 });
-
-
-```
