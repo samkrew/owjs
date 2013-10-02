@@ -126,7 +126,9 @@ describe('owjs', function () {
             prop.should.be.a('object');
             prop.should.have.property('path');
             prop.should.have.property('value');
-
+            var t = parseFloat(prop.value);
+            t.should.be.within(0, 30);
+            
             done();
         }
     });

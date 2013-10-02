@@ -185,7 +185,9 @@ function Client(options) {
         }
 
         function gotMessages(messages) {
-            var message = messages[0];
+            //take the last one only
+            var message = messages[messages.length -1];
+            
             if (message.header.ret < 0) {
                 throw new Error(message.header.ret);  
             } 
