@@ -3,7 +3,7 @@
 /*jshint latedef:nofunc, white:true, node:true, undef:true, unused:true */
 
 var net = require('net'),
-    Q = require('Q');
+    Q = require('q');
 
 var OW_READ =   2; // read from 1-wire bus
 var OW_WRITE =  3; // write to 1-wire bus

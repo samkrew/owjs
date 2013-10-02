@@ -112,6 +112,9 @@ describe('owjs', function () {
 
 
     it('readFamily', function (done) {
+        //this might take somtime on a "real" owserver
+        //if it doesn't have a fresh value in the cache
+        this.timeout(5000);
         client.readFamily(10, 'temperature')
         .then(gotValues)
         .catch(done);

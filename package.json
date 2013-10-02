@@ -1,6 +1,6 @@
 {
   "name": "owjs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A client library for the 1-wire server protocol",
   "main": "owjs.js",
   "keywords": [
