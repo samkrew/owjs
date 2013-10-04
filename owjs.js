@@ -3,7 +3,7 @@
 /*jshint latedef:nofunc, white:true, node:true, undef:true, unused:true */
 
 var net = require('net'),
-    Q = require('Q');
+    Q = require('q');
 
 var OW_READ =   2; // read from 1-wire bus
 var OW_WRITE =  3; // write to 1-wire bus
@@ -185,7 +185,9 @@ function Client(options) {
         }
 
         function gotMessages(messages) {
-            var message = messages[0];
+            //take the last one only
+            var message = messages[messages.length -1];
+            
             if (message.header.ret < 0) {
                 throw new Error(message.header.ret);  
             } 

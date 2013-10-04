@@ -112,6 +112,9 @@ describe('owjs', function () {
 
 
     it('readFamily', function (done) {
+        //this might take somtime on a "real" owserver
+        //if it doesn't have a fresh value in the cache
+        this.timeout(5000);
         client.readFamily(10, 'temperature')
         .then(gotValues)
         .catch(done);
@@ -123,7 +126,9 @@ describe('owjs', function () {
             prop.should.be.a('object');
             prop.should.have.property('path');
             prop.should.have.property('value');
-
+            var t = parseFloat(prop.value);
+            t.should.be.within(0, 30);
+            
             done();
         }
     });
